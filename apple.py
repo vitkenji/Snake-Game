@@ -10,3 +10,6 @@ class Apple:
     def initialize(self, snake):
         while self.position in snake.body or self.position == snake.head_position:
             self.position = [c.TILE_SIZE*random.randint(0, 31), c.TILE_SIZE*random.randint(0, 23)]
+        
+    def restart(self):
+        self.position = [c.TILE_SIZE*random.randint(0, 31), c.TILE_SIZE*random.randint(0, 23)]

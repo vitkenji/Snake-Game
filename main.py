@@ -4,6 +4,7 @@ from snake import Snake
 from apple import Apple
 import random as r
 import constants as c
+from game_over import Game_Over
 
 pg.init()
 screen = pg.display.set_mode((c.WIDTH, c.HEIGHT))
@@ -14,46 +15,19 @@ apple = Apple()
 apple.initialize(snake)
 score = 0
 font = pg.font.Font('PressStart2P-Regular.ttf', 20)
+go_font = pg.font.Font('PressStart2P-Regular.ttf', 30)
 restart = False
 
 def restart_game():
     score = 0
-    snake = Snake()
-    apple = Apple()
+    snake.restart()
+    apple.restart()
     apple.initialize(snake)
     restart = False
-
-def game_over():
-    global restart
-    screen.fill((0,0,0))
-    game_over_text = font.render(f'GAME OVER', True, c.WHITE)
-    score_text = score_text = font.render(f'Score: {score}', True, c.WHITE)
-    screen.blit(game_over_text, (400, 300))
-    screen.blit(score_text, (400, 400))
-    
-    pg.display.flip()
-
-    waiting = True
-    while waiting:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
-                exit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_RETURN:
-                    restart_game()
-                    waiting = False 
-
 
 while running:
     if (not (snake.check_wall_collision() or snake.check_snake_collision())) and not restart:
         screen.fill((0,0,0))
-
-        score_text = font.render(f'Score: {score}', True, c.WHITE)
-        screen.blit(score_text, (10, 10))
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
 
         # printing snake's head first
         direction = snake.get_direction()
@@ -77,10 +51,21 @@ while running:
 
         pg.draw.rect(screen, c.APPLE_COLOR, pg.Rect(apple.position[0], apple.position[1], c.SNAKE_TILE, c.SNAKE_TILE))
         
+        score_text = font.render(f'Score: {score}', True, c.WHITE)
+        screen.blit(score_text, (10, 10))
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+
         pg.display.flip()
         clock.tick(8)
     else:
-        game_over()
+        gameover = Game_Over(score)
+        restart_btn = gameover.get_restart()
+        gameover.print_game_over(screen)
+
+        if restart_btn:
+            restart_game()
 
 pg.quit()
 
