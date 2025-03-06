@@ -8,6 +8,7 @@ class Snake:
         self.head_position = [c.TILE_SIZE*random.randint(0, 31), c.TILE_SIZE*random.randint(0, 23)]
         self.last_direction = (1, 0)
         self.body = []
+        self.score = 0
         
     def get_direction(self) -> tuple:
         keys = pg.key.get_pressed()
@@ -54,3 +55,4 @@ class Snake:
         self.head_position = [c.TILE_SIZE*random.randint(0, 31), c.TILE_SIZE*random.randint(0, 23)]
         self.last_direction = (1, 0)
         self.body = []
+        self.score = 0

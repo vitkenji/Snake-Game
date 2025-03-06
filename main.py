@@ -13,13 +13,10 @@ running = True
 snake = Snake()
 apple = Apple()
 apple.initialize(snake)
-score = 0
 font = pg.font.Font('PressStart2P-Regular.ttf', 20)
-go_font = pg.font.Font('PressStart2P-Regular.ttf', 30)
 restart = False
 
 def restart_game():
-    score = 0
     snake.restart()
     apple.restart()
     apple.initialize(snake)
@@ -34,7 +31,7 @@ while running:
         ate_apple = snake.check_apple_collision(apple.position, direction)
         
         if ate_apple:
-            score += 1
+            snake.score += 1
             apple.initialize(snake)
 
         last_position = snake.head_position[:]
@@ -51,7 +48,7 @@ while running:
 
         pg.draw.rect(screen, c.APPLE_COLOR, pg.Rect(apple.position[0], apple.position[1], c.SNAKE_TILE, c.SNAKE_TILE))
         
-        score_text = font.render(f'Score: {score}', True, c.WHITE)
+        score_text = font.render(f'Score: {snake.score}', True, c.WHITE)
         screen.blit(score_text, (10, 10))
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -60,7 +57,7 @@ while running:
         pg.display.flip()
         clock.tick(8)
     else:
-        gameover = Game_Over(score)
+        gameover = Game_Over(snake.score)
         restart_btn = gameover.get_restart()
         gameover.print_game_over(screen)
 
