@@ -1,7 +1,7 @@
 import pygame as pg
 import random
 import constants as c
-from snake import Snake
+from entities.snake import Snake
 
 class Apple:
     def __init__(self):

@@ -1,7 +1,7 @@
 import pygame as pg
 import time
-from snake import Snake
-from apple import Apple
+from entities.snake import Snake
+from entities.apple import Apple
 import random as r
 import constants as c
 from game_over import Game_Over
@@ -13,7 +13,7 @@ running = True
 snake = Snake()
 apple = Apple()
 apple.initialize(snake)
-font = pg.font.Font('PressStart2P-Regular.ttf', 20)
+font = pg.font.Font(c.font_path, 20)
 restart = False
 
 def restart_game():
@@ -24,7 +24,7 @@ def restart_game():
 
 while running:
     if (not (snake.check_wall_collision() or snake.check_snake_collision())) and not restart:
-        screen.fill((0,0,0))
+        screen.fill(c.BLACK)
 
         # printing snake's head first
         direction = snake.get_direction()
